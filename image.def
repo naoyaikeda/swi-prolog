@@ -8,6 +8,7 @@ From: alpine:latest
     apk update
     apk upgrade
     apk add curl
+    apk add git
     apk add --no-cache python3 py3-pip
     apk add --no-cache swi-prolog --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
