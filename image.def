@@ -1,0 +1,25 @@
+Bootstrap: docker
+From: alpine:latest
+
+%files
+    apps /apps
+
+%post
+    apk update
+    apk upgrade
+    apk add curl
+    apk add --no-cache python3 py3-pip
+    apk add --no-cache swi-prolog --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    cp /root/.local/bin/uv /usr/local/bin/uv
+    chmod +x /usr/local/bin/uv
+
+    chmod 777 /apps
+    cd /apps
+
+    uv init
+    uv add jupyter notebook prolog_kernel
+    uv run python -m prolog_kernel.install
+
