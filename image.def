@@ -13,6 +13,15 @@ From: alpine:latest
     apk add --no-cache python3 py3-pip
     apk add --no-cache swi-prolog --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
     apk add --no-cache starship
+    apk add --no-cache openssh
+
+    # Generate SSH host keys
+    ssh-keygen -A
+
+    # Set SSH port to 8822 to avoid conflict with host
+    sed -i 's/#Port 22/Port 8822/' /etc/ssh/sshd_config
+    # Ensure Port is set even if not found in default config
+    grep -q "^Port 8822" /etc/ssh/sshd_config || echo "Port 8822" >> /etc/ssh/sshd_config
 
     curl -LsSf https://astral.sh/uv/install.sh | sh
 
