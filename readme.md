@@ -6,8 +6,12 @@ This repository contains a Singularity definition file (`image.def`) to build a 
 
 *   **Base Image**: Alpine Linux (lightweight)
 *   **SWI-Prolog**: Installed from Alpine's edge/testing repository.
-*   **Python/Jupyter**: Includes Python 3 and `uv` package manager.
-*   **Prolog Kernel**: Configured `prolog_kernel` for Jupyter.
+*   **Python/Jupyter**: Includes Python 3 and `uv` package manager for efficient dependency management.
+*   **Prolog Kernel**: Configured `prolog_kernel` for Jupyter notebooks.
+*   **Enhanced Shell**: 
+    *   **Starship**: A fast, customizable prompt for an improved CLI experience.
+    *   **Custom Bash Context**: Pre-configured aliases and visual indicators for the container environment.
+*   **Development Tools**: `git`, `curl`, and `bash` are pre-installed.
 
 ## Prerequisites
 
