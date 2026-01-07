@@ -32,8 +32,32 @@ From: alpine:latest
     cd /apps
 
     uv init
-    uv add jupyter notebook prolog_kernel
-    uv run python -m prolog_kernel.install
+    uv add jupyter notebook jupyter-swi-prolog
+
+    # 1. 設置ディレクトリを確実に作成
+    mkdir -p /usr/local/share/jupyter/kernels/swi_prolog_kernel
+
+    # 2. kernel.json を手動で生成し、パスを絶対パスで固定する
+    cat <<EOF > /usr/local/share/jupyter/kernels/swi_prolog_kernel/kernel.json
+{
+ "argv": [
+  "/apps/.venv/bin/python3",
+  "-m",
+  "swi_prolog_kernel",
+  "-f",
+  "{connection_file}"
+ ],
+ "display_name": "SWI-Prolog (Fixed)",
+ "language": "prolog"
+}
+EOF
+
+    # 3. 実行に必要な .py ファイル群をパッケージからコピー
+    K_SRC=$(uv run python -c "import swi_prolog_kernel; import os; print(os.path.dirname(swi_prolog_kernel.__file__))")
+    cp -r $K_SRC/* /usr/local/share/jupyter/kernels/swi_prolog_kernel/
+
+    # 4. 全ユーザーが実行・読み取りできるように権限設定
+    chmod -R 755 /usr/local/share/jupyter/kernels/swi_prolog_kernel
 
 %environment
     export SHELL=/bin/bash
